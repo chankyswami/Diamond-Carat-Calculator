@@ -12,6 +12,4 @@ COPY target/*.jar app.jar
 EXPOSE 5000
 
 # Start application
-CMD ["java", "-jar" "app.jar"]
-
-
+CMD ["java", "-jar", "app.jar"]
