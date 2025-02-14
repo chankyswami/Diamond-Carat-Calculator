@@ -27,7 +27,7 @@ pipeline {
                 container('jnlp') {
                     script {
                         def repoUrl = scm.getUserRemoteConfigs()[0].getUrl()
-                        def repoName = repoUrl.tokenize('/').last().replace('.git', '')
+                        def repoName = repoUrl.tokenize('/').last().replace('.git', '').toLowerCase()
                         def deploymentRepo = repoUrl.replace('.git', '')+ "-deployment.git"
                         env.REPO_NAME = repoName
                         env.IMAGE_NAME = "docker.io/chankyswami/${repoName}:latest"
