@@ -28,12 +28,13 @@ pipeline {
                     script {
                         def repoUrl = scm.getUserRemoteConfigs()[0].getUrl()
                         def repoName = repoUrl.tokenize('/').last().replace('.git', '')
-                        def deploymentRepo = repoUrl.replace('.git', '')-deployment.git
+                        def deploymentRepo = repoUrl.replace('.git', '')+ "-deployment.git"
                         env.REPO_NAME = repoName
                         env.IMAGE_NAME = "docker.io/chankyswami/${repoName}:latest"
                         env.DEPLOYMENT_REPO = deploymentRepo
                         echo "Repository Name: ${repoName}"
                         echo "Docker Image Name: ${env.IMAGE_NAME}"
+                        echo "Deployment Repository: ${env.DEPLOYMENT_REPO}"
                     }
                 }
             }
