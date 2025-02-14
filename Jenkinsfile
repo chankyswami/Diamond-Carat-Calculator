@@ -144,7 +144,7 @@ pipeline {
 
                                 git add .
                                 git commit -m "Update deployment image to ${IMAGE_NAME}"
-                                git push origin chanky
+                                git push origin main
                             '''
                         }
                     }
