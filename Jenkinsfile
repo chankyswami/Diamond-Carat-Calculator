@@ -134,7 +134,7 @@ pipeline {
                             sh '''
                                 set -x
                                 DEPLOYMENT_REPO_AUTH=$(echo ${DEPLOYMENT_REPO} | sed "s|https://|https://${GIT_TOKEN}@|")
-                                git clone -b chanky ${DEPLOYMENT_REPO_AUTH} k8s-manifests
+                                git clone -b main ${DEPLOYMENT_REPO_AUTH} k8s-manifests
                                 cd k8s-manifests
 
                                 # Update deployment.yaml with new image
