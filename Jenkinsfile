@@ -29,8 +29,9 @@ pipeline {
                         def repoUrl = scm.getUserRemoteConfigs()[0].getUrl()
                         def repoName = repoUrl.tokenize('/').last().replace('.git', '').toLowerCase()
                         def deploymentRepo = repoUrl.replace('.git', '')+ "-deployment.git"
+                        def commitSha = sh(script: 'git rev-parse --short HEAD', returnStdout: true).trim()
                         env.REPO_NAME = repoName
-                        env.IMAGE_NAME = "docker.io/chankyswami/${repoName}:latest"
+                        env.IMAGE_NAME = "docker.io/chankyswami/${repoName}:${commitSha}"
                         env.DEPLOYMENT_REPO = deploymentRepo
                         echo "Repository Name: ${repoName}"
                         echo "Docker Image Name: ${env.IMAGE_NAME}"
@@ -134,7 +135,7 @@ pipeline {
                             sh '''
                                 set -x
                                 DEPLOYMENT_REPO_AUTH=$(echo ${DEPLOYMENT_REPO} | sed "s|https://|https://${GIT_TOKEN}@|")
-                                git clone -b main ${DEPLOYMENT_REPO_AUTH} k8s-manifests
+                                git clone -b chanky ${DEPLOYMENT_REPO_AUTH} k8s-manifests
                                 cd k8s-manifests
 
                                 # Update deployment.yaml with new image
