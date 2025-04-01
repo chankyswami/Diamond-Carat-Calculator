@@ -99,33 +99,33 @@ pipeline {
             }
         }
 
-        stage('Scan Docker Image with Trivy') {
-            steps {
-                container('jnlp') {
-                    script {
-                        sh '''
-                            set -x
-                            mkdir -p trivy-reports
+        // stage('Scan Docker Image with Trivy') {
+        //     steps {
+        //         container('jnlp') {
+        //             script {
+        //                 sh '''
+        //                     set -x
+        //                     mkdir -p trivy-reports
 
-                            # Ensure the template file exists
-                            if [ ! -f "$WORKSPACE/contrib/html.tpl" ]; then
-                                echo "Template file contrib/html.tpl not found!"
-                                exit 1
-                            fi
+        //                     # Ensure the template file exists
+        //                     if [ ! -f "$WORKSPACE/contrib/html.tpl" ]; then
+        //                         echo "Template file contrib/html.tpl not found!"
+        //                         exit 1
+        //                     fi
 
-                            # Run Trivy and generate reports
-                            trivy image --timeout 10m --format json --output trivy-reports/trivy-report.json ${IMAGE_NAME}
-                            trivy image --timeout 10m --format template --template "@$WORKSPACE/contrib/html.tpl" -o trivy-reports/trivy-report.html ${IMAGE_NAME}
-                        '''
-                    }
-                }
-            }
-            post {
-                always {
-                    archiveArtifacts artifacts: 'trivy-reports/*.json, trivy-reports/*.html', fingerprint: true
-                }
-            }
-        }
+        //                     # Run Trivy and generate reports
+        //                     trivy image --timeout 10m --format json --output trivy-reports/trivy-report.json ${IMAGE_NAME}
+        //                     trivy image --timeout 10m --format template --template "@$WORKSPACE/contrib/html.tpl" -o trivy-reports/trivy-report.html ${IMAGE_NAME}
+        //                 '''
+        //             }
+        //         }
+        //     }
+        //     post {
+        //         always {
+        //             archiveArtifacts artifacts: 'trivy-reports/*.json, trivy-reports/*.html', fingerprint: true
+        //         }
+        //     }
+        // }
 
         stage('Update K8s Manifests & Push to chanky Branch') {
             steps {
