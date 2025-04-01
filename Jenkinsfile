@@ -29,8 +29,9 @@ pipeline {
                         def repoUrl = scm.getUserRemoteConfigs()[0].getUrl()
                         def repoName = repoUrl.tokenize('/').last().replace('.git', '').toLowerCase()
                         def deploymentRepo = repoUrl.replace('.git', '')+ "-deployment.git"
+                        def commitSha = sh(script: 'git rev-parse --short HEAD', returnStdout: true).trim()
                         env.REPO_NAME = repoName
-                        env.IMAGE_NAME = "docker.io/chankyswami/${repoName}:latest"
+                        env.IMAGE_NAME = "docker.io/chankyswami/${repoName}:${commitSha}"
                         env.DEPLOYMENT_REPO = deploymentRepo
                         echo "Repository Name: ${repoName}"
                         echo "Docker Image Name: ${env.IMAGE_NAME}"
