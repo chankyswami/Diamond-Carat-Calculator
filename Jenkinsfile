@@ -98,7 +98,7 @@ pipeline {
                 }
             }
         }
-
+// Commented out the Trivy scan stage as its taking time and not needed for now
         // stage('Scan Docker Image with Trivy') {
         //     steps {
         //         container('jnlp') {
